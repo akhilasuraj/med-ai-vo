@@ -34,7 +34,7 @@ const Signup = () => {
     e.preventDefault();
     
     try {
-      const validatedData = signupSchema.parse(formData);
+      signupSchema.parse(formData);
       setErrors({});
       // TODO: Handle signup logic
       // Redirect to onboarding after successful signup

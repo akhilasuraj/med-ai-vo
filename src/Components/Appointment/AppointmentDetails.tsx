@@ -1,5 +1,4 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
 import { FaUserMd, FaHospital, FaClock, FaCheckCircle, FaFileAlt, FaFlask, FaDollarSign } from 'react-icons/fa';
 
 interface Prescription {
@@ -183,9 +182,8 @@ const AppointmentDetails: React.FC<AppointmentDetailsProps> = ({ appointment }) 
 };
 
 const AppointmentDetailsWrapper: React.FC = () => {
-  const { id } = useParams();
+  // Get the appointment ID from URL params
   // TODO: Use ID to fetch appointment data from API
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const appointment = sampleAppointmentData;
 
   if (!appointment) {
