@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { showSnackbar } from '../../features/snackbar/snackbarSlice';
 import MedicalLogo from '../../Shared/Components/MedicalLogo';
 
 interface LoginProps {
@@ -14,6 +16,7 @@ const loginSchema = z.object({
 
 const Login: React.FC<LoginProps> = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -31,7 +34,13 @@ const Login: React.FC<LoginProps> = () => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       console.log('Login attempt with:', validatedData);
-      navigate('/dashboard'); // Navigate to dashboard after successful login
+      
+      dispatch(showSnackbar({ message: 'Logged in successfully!', type: 'success' }));
+      
+      // Navigate after a short delay
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
     } catch (error) {
       if (error instanceof z.ZodError) {
         const formattedErrors = error.errors.reduce((acc, err) => ({
@@ -39,6 +48,7 @@ const Login: React.FC<LoginProps> = () => {
           [err.path[0]]: err.message
         }), {});
         setErrors(formattedErrors);
+        dispatch(showSnackbar({ message: 'Invalid email or password', type: 'error' }));
       }
     } finally {
       setIsLoading(false);
